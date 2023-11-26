@@ -177,15 +177,15 @@ fun ItemEvent(event: Events, context: Context) {
         elevation = CardDefaults.cardElevation(10.dp),
         border = BorderStroke(1.dp, Color.Gray)
     ) {
-        Row {
+        Row (verticalAlignment = Alignment.CenterVertically) {
             AsyncImage(
-                model = "https://zaragozamakerspace.com/wp-content/uploads/2023/01/CodeBeers-100x100.png",
+                model = event.image,
                 contentDescription = "CodeBeers",
                 modifier = Modifier
                     .padding(8.dp)
                     .clip(
                         CircleShape
-                    ),
+                    ).size(100.dp),
 
                 )
             //Icon(Icons.Rounded.AccountCircle, contentDescription = null, Modifier.size(50.dp))
@@ -198,6 +198,9 @@ fun ItemEvent(event: Events, context: Context) {
                     Spacer(modifier = Modifier.size(10.dp))
                     Text(text = event.weekDay)
                     Spacer(modifier = Modifier.size(10.dp))
+
+                }
+                Row(Modifier.fillMaxWidth()){
                     Text(text = event.timeStart, color = Color.Blue)
                     Text(text = " - ", color = Color.Blue)
                     Text(text = event.timeEnd, color = Color.Blue)

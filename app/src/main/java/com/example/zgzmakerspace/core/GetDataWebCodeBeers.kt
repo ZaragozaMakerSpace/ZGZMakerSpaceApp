@@ -34,7 +34,8 @@ class GetDataWebCodeBeers {
             val titleEvent = row.getElementsByClass(classTitleEvent)[0].text()
             val weekDayEvent=row.getElementsByClass(classWeekdayDayTag)[0].text()
             val link = row.getElementsByClass(classTitleEvent)[0].attr("href")
-            val urlImageEvent = row.getElementsByClass(classTitleEvent)[0].text()
+            //val urlImageEvent = row.getElementsByClass(classTitleEvent)[0].text()
+            val urlImageEvent = "https://zaragozamakerspace.com/wp-content/uploads/2023/01/CodeBeers-250x250.png"
 
             val event =
                 Events(titleEvent, dateEvent, timeStartEvent, timeEndEvent,weekDayEvent, link, urlImageEvent)
