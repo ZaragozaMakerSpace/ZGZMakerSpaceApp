@@ -64,7 +64,7 @@ fun ZGZMakerSpaceTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = ZMSTypography,
         content = content
     )
 }

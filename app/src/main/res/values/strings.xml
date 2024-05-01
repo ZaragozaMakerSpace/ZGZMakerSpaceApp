@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ZGZMakerSpace</string>
+    <string name="title_activity_zmsactivity">ZMSActivity</string>
 </resources>

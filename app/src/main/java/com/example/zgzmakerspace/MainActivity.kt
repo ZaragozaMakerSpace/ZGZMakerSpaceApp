@@ -10,7 +10,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,7 +30,6 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -60,25 +58,31 @@ import com.example.zgzmakerspace.model.Events
 import com.example.zgzmakerspace.ui.theme.ZGZMakerSpaceTheme
 import com.example.zgzmakerspace.viewmodel.EventsViewModel
 
+val icon_Ids = listOf(
+    R.drawable.instagram_icon,
+    R.drawable.patreon_icon,
+    R.drawable.x_icon,
+    R.drawable.facebook_icon
+)
+val icon_URLs = listOf(
+    "https://www.instagram.com/zgzmakerspace",
+    "https://www.patreon.com/ZGZMakerSpace",
+    "https://twitter.com/ZGZMakerSpace",
+    "https://www.facebook.com/zgzmakerspace/"
+)
+val ZMS_Activity = ZMSActivity::class.java
 
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterial3Api::class)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val viewModel: EventsViewModel by viewModels()
-        val screens = listOf("CodeBeers", "Talleres")
-
-
-
-
+        val screens = listOf("Home", "CodeBeers", "Talleres")
         setContent {
 
             var selectedScreen by remember { mutableStateOf(screens.first()) }
             ZGZMakerSpaceTheme {
                 // A surface container using the 'background' color from the theme
-
-
                 val loading = viewModel.loading.collectAsState()
                 val list = viewModel.listEvent.collectAsState()
 
@@ -101,9 +105,7 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
-        viewModel.readWeb()
-
-
+        viewModel.loadHome()
     }
 }
 
@@ -120,7 +122,8 @@ fun ListEvents(
             Modifier
                 .fillMaxHeight()
                 .fillMaxWidth(), verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally) {
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Text("No hay nada!!", fontSize = 20.sp, color = Color.Red)
         }
 
@@ -144,22 +147,13 @@ fun BottomBar(
 ) {
     NavigationBar {
         NavigationBarItem(
-            selected = now == screens[1],
-            label = { Text(text = screens[1]) },
-            onClick = {
-                viewModel.readWebLab()
-                onSelected("Talleres")
-            },
-            icon = { Icon(Icons.Filled.Home, contentDescription = "Home") })
-
-        NavigationBarItem(
             selected = now == screens[0],
             label = { Text(text = screens[0]) },
             onClick = {
-                viewModel.readWeb()
-                onSelected("CodeBeers")
+                viewModel.readWebLab()
+                onSelected("Home")
             },
-            icon = { Icon(Icons.Filled.DateRange, contentDescription = "CodeBeers") })
+            icon = { Icon(Icons.Filled.Home, contentDescription = "Home") })
 
         NavigationBarItem(
             selected = now == screens[1],
@@ -170,7 +164,14 @@ fun BottomBar(
             },
             icon = { Icon(Icons.Filled.Build, contentDescription = "Talleres") })
 
-
+        NavigationBarItem(
+            selected = now == screens[2],
+            label = { Text(text = screens[2]) },
+            onClick = {
+                viewModel.readWeb()
+                onSelected("CodeBeers")
+            },
+            icon = { Icon(Icons.Filled.DateRange, contentDescription = "CodeBeers") })
     }
 
 
@@ -182,13 +183,13 @@ fun ItemEvent(event: Events, context: Context) {
         modifier = Modifier
             .padding(4.dp)
             .clickable {
-                var intent = Intent(Intent.ACTION_VIEW, Uri.parse(event.link))
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(event.link))
                 context.startActivity(intent)
             },
         elevation = CardDefaults.cardElevation(10.dp),
         border = BorderStroke(1.dp, Color.Gray)
     ) {
-        Row (verticalAlignment = Alignment.CenterVertically) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             AsyncImage(
                 model = event.image,
                 contentDescription = "CodeBeers",
@@ -196,7 +197,8 @@ fun ItemEvent(event: Events, context: Context) {
                     .padding(8.dp)
                     .clip(
                         CircleShape
-                    ).size(100.dp),
+                    )
+                    .size(100.dp),
 
                 )
             //Icon(Icons.Rounded.AccountCircle, contentDescription = null, Modifier.size(50.dp))
@@ -211,7 +213,7 @@ fun ItemEvent(event: Events, context: Context) {
                     Spacer(modifier = Modifier.size(10.dp))
 
                 }
-                Row(Modifier.fillMaxWidth()){
+                Row(Modifier.fillMaxWidth()) {
                     Text(text = event.timeStart, color = Color.Blue)
                     Text(text = " - ", color = Color.Blue)
                     Text(text = event.timeEnd, color = Color.Blue)
@@ -251,7 +253,7 @@ fun DialogLoading(show: Boolean) {
                 Row(
                     Modifier
                         .fillMaxWidth(),
-                        //.background(color = Color.White),
+                    //.background(color = Color.White),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {

@@ -16,6 +16,15 @@ class EventsViewModel: ViewModel() {
     private var _loading= MutableStateFlow<Boolean>(true)
     val loading:StateFlow<Boolean> = _loading
 
+    fun loadHome(){
+        _loading.value=true
+        viewModelScope.launch(Dispatchers.IO){
+            var data=GetDataWebCodeBeers()
+            data.getEvents()
+            _listEvents.value=data.returnEvents()
+            _loading.value=false
+        }
+    }
     fun readWeb(){
         _loading.value=true
         viewModelScope.launch(Dispatchers.IO){
@@ -23,7 +32,6 @@ class EventsViewModel: ViewModel() {
             data.getEvents()
             _listEvents.value=data.returnEvents()
             _loading.value=false
-
         }
     }
 
