@@ -40,6 +40,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -80,7 +81,7 @@ class MainActivity : ComponentActivity() {
         val screens = listOf("Home", "CodeBeers", "Talleres")
         setContent {
 
-            var selectedScreen by remember { mutableStateOf(screens.first()) }
+            var selectedScreen by rememberSaveable { mutableStateOf(screens.first()) }
             ZGZMakerSpaceTheme {
                 // A surface container using the 'background' color from the theme
                 val loading = viewModel.loading.collectAsState()
@@ -96,10 +97,17 @@ class MainActivity : ComponentActivity() {
                     },
                     content = {
                         val context = LocalContext.current
-                        ListEvents(events = list.value, loading.value, paddingValues = it, context)
-                        if (loading.value) {
-                            DialogLoading(show = loading.value)
+                        if (selectedScreen=="Home"){
+                            Home(it)
                         }
+                        else{
+                            ListEvents(events = list.value, loading.value, paddingValues = it, context)
+                            if (loading.value) {
+                                DialogLoading(show = loading.value)
+                            }
+                        }
+
+
                     }
 
                 )
@@ -150,7 +158,6 @@ fun BottomBar(
             selected = now == screens[0],
             label = { Text(text = screens[0]) },
             onClick = {
-                viewModel.readWebLab()
                 onSelected("Home")
             },
             icon = { Icon(Icons.Filled.Home, contentDescription = "Home") })
@@ -159,19 +166,19 @@ fun BottomBar(
             selected = now == screens[1],
             label = { Text(text = screens[1]) },
             onClick = {
-                viewModel.readWebLab()
-                onSelected("Talleres")
+                viewModel.readWeb()
+                onSelected("CodeBeers")
             },
-            icon = { Icon(Icons.Filled.Build, contentDescription = "Talleres") })
+            icon = { Icon(Icons.Filled.Build, contentDescription = "CodeBeers") })
 
         NavigationBarItem(
             selected = now == screens[2],
             label = { Text(text = screens[2]) },
             onClick = {
-                viewModel.readWeb()
-                onSelected("CodeBeers")
+                viewModel.readWebLab()
+                onSelected("Talleres")
             },
-            icon = { Icon(Icons.Filled.DateRange, contentDescription = "CodeBeers") })
+            icon = { Icon(Icons.Filled.DateRange, contentDescription = "Talleres") })
     }
 
 
