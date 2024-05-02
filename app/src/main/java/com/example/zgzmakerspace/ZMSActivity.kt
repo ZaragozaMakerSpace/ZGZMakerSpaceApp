@@ -1,5 +1,6 @@
 package com.example.zgzmakerspace
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -16,6 +17,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -28,7 +30,18 @@ import com.example.zgzmakerspace.core.URLImage
 import com.example.zgzmakerspace.ui.theme.ZGZMakerSpaceTheme
 
 val imagesList = listOf(
-    URLImage(R.mipmap.maker_space_logo, "https://zaragozamakerspace.com"),
+    URLImage(R.mipmap.print_zms, "https://learning.zaragozamakerspace.com/enrol/index.php?id=2"),
+    URLImage(R.mipmap.laser_zms, "https://learning.zaragozamakerspace.com/enrol/index.php?id=4"),
+    URLImage(R.mipmap.arduino_zms, "https://zaragozamakerspace.com/courses/arduino-basico/"),
+    URLImage(R.mipmap.esp_zms, "https://learning.zaragozamakerspace.com/enrol/index.php?id=12"),
+    URLImage(R.mipmap.android_zms, "https://github.com/ZaragozaMakerSpace/ZGZMakerSpaceApp"),
+    URLImage(R.mipmap.cnc_zms, "https://zaragozamakerspace.com/kicad2cnc/"),
+    URLImage(R.mipmap.raspberry_zms, "https://zaragozamakerspace.com/orange-pi-zero-jugar/"),
+    URLImage(R.mipmap.git_zms, "https://github.com/ZaragozaMakerSpace"),
+    URLImage(
+        R.mipmap.linux_zms,
+        "https://zaragozamakerspace.com/makers-y-la-filosofia-del-codigo-libre/"
+    ),
 )
 
 class ZMSActivity : ComponentActivity() {
@@ -48,10 +61,22 @@ class ZMSActivity : ComponentActivity() {
     }
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Preview(showBackground = true)
 @Composable
 fun ZMSCategories() {
-    ImageGrid(2)
+    Scaffold(
+        bottomBar = {
+            /*BottomBar(screens, selectedScreen, onSelected = {
+                selectedScreen = it
+
+            }, viewModel)
+            */
+        },
+        content = {
+            ImageGrid(2)
+        }
+    )
 }
 
 @Composable
