@@ -15,12 +15,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -100,7 +98,7 @@ fun Home(paddingValues: PaddingValues) {
         Box(
             contentAlignment = Alignment.BottomCenter,
 
-        ) {
+            ) {
             Icons(icon_Ids.zip(icon_URLs).toMap())
 
         }
@@ -141,13 +139,13 @@ fun Icons(iconIDs: Map<Int, String>) {
 @Composable
 fun MapViewContainer() {
     val context = LocalContext.current
-    val apiKey = getMapsApiKey(context)
+    var apiKey = getMapsApiKey(context)
 
     if (!apiKey.isNullOrEmpty()) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(300.dp)
+                .height(250.dp)
         ) {
             GoogleMapComposable()
         }
@@ -162,7 +160,7 @@ fun MapViewContainer() {
 
 @Composable
 fun GoogleMapComposable() {
-    val zmsMarker = LatLng(41.6499252, -0.8927183)
+    val zmsMarker = LatLng(41.65003, -0.89227)
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(zmsMarker, 19f)
     }
@@ -199,7 +197,7 @@ fun getMapsApiKey(context: Context): String? {
             context.packageName,
             PackageManager.GET_META_DATA
         )
-        applicationInfo.metaData?.getString("com.google.android.geo.API_KEY")
+        return applicationInfo.metaData?.getString("com.google.android.geo.API_KEY")
     } catch (e: PackageManager.NameNotFoundException) {
 
         null

@@ -12,6 +12,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -39,7 +40,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -97,23 +97,25 @@ class MainActivity : ComponentActivity() {
                     },
                     content = {
                         val context = LocalContext.current
-                        if (selectedScreen=="Home"){
-                            Home(it)
-                        }
-                        else{
-                            ListEvents(events = list.value, loading.value, paddingValues = it, context)
+                        if (selectedScreen == "Home") {
+                            Box(modifier = Modifier.padding(10.dp)) {
+                                Home(it)
+                            }
+                        } else {
+                            ListEvents(
+                                events = list.value,
+                                loading.value,
+                                paddingValues = it,
+                                context
+                            )
                             if (loading.value) {
                                 DialogLoading(show = loading.value)
                             }
                         }
-
-
                     }
-
                 )
             }
         }
-        viewModel.loadHome()
     }
 }
 
