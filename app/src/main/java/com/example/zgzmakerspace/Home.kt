@@ -43,6 +43,12 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import kotlinx.coroutines.launch
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
+import org.eclipse.paho.client.mqttv3.MqttCallback
+import org.eclipse.paho.client.mqttv3.MqttClient
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions
+import org.eclipse.paho.client.mqttv3.MqttException
+import org.eclipse.paho.client.mqttv3.MqttMessage
 
 
 @Composable
@@ -204,6 +210,46 @@ fun getMapsApiKey(context: Context): String? {
     } catch (e: NullPointerException) {
 
         null
+    }
+}
+
+fun getMQTTMessage(context: Context) {
+    // To send message here in command line with mosquitto_pub client.
+    // mosquitto_pub -h broker.hivemq.com -p 1883 -t ZMSDoor -m "{ ZMSDoor : true }"
+
+    val serverURI = "ssl://broker.hivemq.com:1883"
+    val clientId = MqttClient.generateClientId()
+    val ZMSTopic = "ZMSDoor"
+    val ZMSMqttClient: MqttClient = MqttClient(serverURI, clientId)
+    val ZMSMqttOptions = MqttConnectOptions()
+    val qos = 1
+    ZMSMqttClient.setCallback(object : MqttCallback {
+        override fun messageArrived(topic: String?, message: MqttMessage?) {
+            // Log.d(TAG, "Receive message: ${message.toString()} from topic: $topic"
+        }
+
+        override fun connectionLost(cause: Throwable?) {
+            //Log.d(TAG, "Connection lost ${cause.toString()}")
+        }
+
+        override fun deliveryComplete(token: IMqttDeliveryToken?) {
+
+        }
+    })
+
+
+    try {
+        ZMSMqttClient.connect(ZMSMqttOptions)
+
+    } catch (e: MqttException) {
+        e.printStackTrace()
+    }
+
+    try {
+        ZMSMqttClient.subscribe(ZMSTopic, qos)
+
+    } catch (e: MqttException) {
+        e.printStackTrace()
     }
 }
 
