@@ -26,7 +26,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,6 +34,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.zgzmakerspace.viewmodel.MqttViewModel
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
@@ -43,20 +44,13 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import kotlinx.coroutines.launch
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
-import org.eclipse.paho.client.mqttv3.MqttCallback
-import org.eclipse.paho.client.mqttv3.MqttClient
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions
-import org.eclipse.paho.client.mqttv3.MqttException
-import org.eclipse.paho.client.mqttv3.MqttMessage
 
 
 @Composable
 fun Home(paddingValues: PaddingValues) {
     val context = LocalContext.current
-    val makerspaceIsOpen by rememberSaveable {
-        mutableStateOf(false)
-    }
+    val viewModel: MqttViewModel = viewModel()
+    val makerspaceIsOpen = viewModel.makerspaceIsOpen
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -94,7 +88,7 @@ fun Home(paddingValues: PaddingValues) {
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "El makerspace esta ${makerspaceIsOpen}",
+                    text = "El makerspace esta ${makerspaceIsOpen.value}",
                     textAlign = TextAlign.Center
                 )
             }
@@ -210,46 +204,6 @@ fun getMapsApiKey(context: Context): String? {
     } catch (e: NullPointerException) {
 
         null
-    }
-}
-
-fun getMQTTMessage(context: Context) {
-    // To send message here in command line with mosquitto_pub client.
-    // mosquitto_pub -h broker.hivemq.com -p 1883 -t ZMSDoor -m "{ ZMSDoor : true }"
-
-    val serverURI = "ssl://broker.hivemq.com:1883"
-    val clientId = MqttClient.generateClientId()
-    val ZMSTopic = "ZMSDoor"
-    val ZMSMqttClient: MqttClient = MqttClient(serverURI, clientId)
-    val ZMSMqttOptions = MqttConnectOptions()
-    val qos = 1
-    ZMSMqttClient.setCallback(object : MqttCallback {
-        override fun messageArrived(topic: String?, message: MqttMessage?) {
-            // Log.d(TAG, "Receive message: ${message.toString()} from topic: $topic"
-        }
-
-        override fun connectionLost(cause: Throwable?) {
-            //Log.d(TAG, "Connection lost ${cause.toString()}")
-        }
-
-        override fun deliveryComplete(token: IMqttDeliveryToken?) {
-
-        }
-    })
-
-
-    try {
-        ZMSMqttClient.connect(ZMSMqttOptions)
-
-    } catch (e: MqttException) {
-        e.printStackTrace()
-    }
-
-    try {
-        ZMSMqttClient.subscribe(ZMSTopic, qos)
-
-    } catch (e: MqttException) {
-        e.printStackTrace()
     }
 }
 
