@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+
 }
 
 android {
@@ -71,6 +72,6 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation("org.jsoup:jsoup:1.14.3")
     implementation("io.coil-kt:coil-compose:2.5.0")
-    implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.0.2")
-    implementation("org.eclipse.paho:org.eclipse.android.service:1.0.2")
+    implementation ("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.2")
+    implementation ("org.eclipse.paho:org.eclipse.paho.android.service:1.1.1")
 }
