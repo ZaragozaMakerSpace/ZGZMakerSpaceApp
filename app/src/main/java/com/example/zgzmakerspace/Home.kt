@@ -26,7 +26,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,6 +34,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.zgzmakerspace.ui.theme.ZMSCloseColor
+import com.example.zgzmakerspace.ui.theme.ZMSOpenColor
+import com.example.zgzmakerspace.viewmodel.MqttViewModel
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
@@ -48,9 +51,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun Home(paddingValues: PaddingValues) {
     val context = LocalContext.current
-    val makerspaceIsOpen by rememberSaveable {
-        mutableStateOf(false)
-    }
+    val viewModel: MqttViewModel = viewModel()
+    val makerspaceIsOpen = viewModel.makerspaceIsOpen
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -88,7 +90,8 @@ fun Home(paddingValues: PaddingValues) {
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "El makerspace esta ${makerspaceIsOpen}",
+                    text = "El makerspace esta ${if (makerspaceIsOpen.value) "abierto" else "cerrado"}",
+                    color = if (makerspaceIsOpen.value) ZMSOpenColor else ZMSCloseColor,
                     textAlign = TextAlign.Center
                 )
             }
