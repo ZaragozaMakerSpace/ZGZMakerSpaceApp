@@ -35,6 +35,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.zgzmakerspace.ui.theme.ZMSCloseColor
+import com.example.zgzmakerspace.ui.theme.ZMSOpenColor
 import com.example.zgzmakerspace.viewmodel.MqttViewModel
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -88,7 +90,8 @@ fun Home(paddingValues: PaddingValues) {
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "El makerspace esta ${makerspaceIsOpen.value}",
+                    text = "El makerspace esta ${if (makerspaceIsOpen.value) "abierto" else "cerrado"}",
+                    color = if (makerspaceIsOpen.value) ZMSOpenColor else ZMSCloseColor,
                     textAlign = TextAlign.Center
                 )
             }
