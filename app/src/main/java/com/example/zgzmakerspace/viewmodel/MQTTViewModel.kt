@@ -53,6 +53,8 @@ class MqttViewModel : ViewModel() {
             mqttClient.subscribe(topic, 1)
         } catch (e: MqttException) {
             e.printStackTrace()
+            val msg = ""
+            makerspaceIsOpen.value = msg == "open"
         }
     }
 }
