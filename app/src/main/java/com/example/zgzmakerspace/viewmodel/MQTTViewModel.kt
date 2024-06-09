@@ -15,10 +15,10 @@ class MqttViewModel : ViewModel() {
     val makerspaceIsOpen = mutableStateOf(false)
     val connectionStatus = mutableStateOf("Desconectado")
     private val serverURI = "tcp://broker.hivemq.com:1883"
-    private val clientId = "KotlinMQTTClient"
+    private val clientId = MqttClient.generateClientId()
     private val topic = "ZMSDoor"
-    private lateinit var mqttClient: MqttClient
-    private val TAG = "MQTT"
+
+    private val tag = "MQTT"
 
     init {
         setupMqttClient()
@@ -31,18 +31,18 @@ class MqttViewModel : ViewModel() {
             val options = MqttConnectOptions()
             options.isCleanSession = true
             options.setConnectionTimeout(10)
-
+            options.isAutomaticReconnect = true
             mqttClient.connect(options)
 
             mqttClient.setCallback(object : MqttCallbackExtended {
                 override fun connectComplete(reconnect: Boolean, serverURI: String) {
                     connectionStatus.value = "Connected"
-                    Log.d(TAG, "Connection Succesful")
+                    Log.d(tag, "Connection Succesful")
                     mqttClient.subscribe(
                         topic,
                         1
                     )
-                    Log.d(TAG, "Connected to: $serverURI")
+                    Log.d(tag, "Connected to: $serverURI")
                 }
 
                 override fun messageArrived(topic: String?, message: MqttMessage?) {
@@ -55,19 +55,19 @@ class MqttViewModel : ViewModel() {
                 }
 
                 override fun connectionLost(cause: Throwable?) {
-                    Log.d(TAG, "Connection lost: ${cause?.message}")
+                    Log.d(tag, "Connection lost Not connected: ${cause?.message}")
                     connectionStatus.value = "NotConnected"
                 }
 
                 override fun deliveryComplete(token: IMqttDeliveryToken?) {
                     // Not used in this scenario
-                    Log.d(TAG, "Delivery Complete")
+                    Log.d(tag, "Delivery Complete")
                 }
             })
 
             mqttClient.subscribe(topic, 1)
         } catch (e: MqttException) {
-            Log.d(TAG, e.message.toString())
+            Log.d(tag, e.message.toString())
             e.printStackTrace()
         }
     }
