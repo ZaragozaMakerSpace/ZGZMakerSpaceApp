@@ -1,4 +1,4 @@
-package com.example.zgzmakerspace.core
+package com.zms.zgzmakerspace.core
 
 data class URLImage(
     val imageResId: Int,

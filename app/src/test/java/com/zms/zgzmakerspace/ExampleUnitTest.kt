@@ -1,8 +1,7 @@
-package com.example.zgzmakerspace
+package com.zms.zgzmakerspace
 
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).

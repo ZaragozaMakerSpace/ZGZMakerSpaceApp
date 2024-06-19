@@ -1,7 +1,6 @@
-package com.example.zgzmakerspace.core
+package com.zms.zgzmakerspace.core
 
-import android.util.Log
-import com.example.zgzmakerspace.model.Events
+import com.zms.zgzmakerspace.model.Events
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.text.SimpleDateFormat
@@ -14,7 +13,7 @@ class GetDataWebLaboratories {
     val classClassStartTime = "tribe-events-abbr tribe-events-start-time published dtstart"
     val classClassEndTime = "tribe-event-date-end"
     val classTitleEvent = "ect-event-url"
-    val classImageurl="tribe-events-event-image"
+    val classImageurl = "tribe-events-event-image"
     val classWeekdayDayTag = "tribe-events-pro-summary__event-date-tag-weekday"
     var listEvents = mutableListOf<Events>()
 
@@ -45,13 +44,14 @@ class GetDataWebLaboratories {
             var lab: Document = Jsoup.connect(link).userAgent("Agenda").timeout(30000)
                 .referrer("https://google.com")
                 .get()
-            val urlImageEvent = lab.getElementsByClass(classImageurl)[0].getElementsByTag("img").attr("src")
-            timeStartEvent= lab.getElementsByClass(classClassStartTime)[0].text()
-            dateEvent= lab.getElementsByClass(classClassStartTime)[0].attr("title")
-            var format=SimpleDateFormat("yyyy-MM-dd")
-            var formatList=SimpleDateFormat("dd-MM-yyyy")
-            val date=format.parse(dateEvent)
-            dateEvent=formatList.format(date)
+            val urlImageEvent =
+                lab.getElementsByClass(classImageurl)[0].getElementsByTag("img").attr("src")
+            timeStartEvent = lab.getElementsByClass(classClassStartTime)[0].text()
+            dateEvent = lab.getElementsByClass(classClassStartTime)[0].attr("title")
+            var format = SimpleDateFormat("yyyy-MM-dd")
+            var formatList = SimpleDateFormat("dd-MM-yyyy")
+            val date = format.parse(dateEvent)
+            dateEvent = formatList.format(date)
 
 
             val event =

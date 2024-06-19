@@ -1,4 +1,4 @@
-package com.example.zgzmakerspace
+package com.zms.zgzmakerspace
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -26,8 +26,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.zgzmakerspace.core.URLImage
-import com.example.zgzmakerspace.ui.theme.ZGZMakerSpaceTheme
+import com.zms.zgzmakerspace.core.URLImage
+import com.zms.zgzmakerspace.ui.theme.ZGZMakerSpaceTheme
 
 val imagesList = listOf(
     URLImage(R.mipmap.print_zms, "https://learning.zaragozamakerspace.com/enrol/index.php?id=2"),

@@ -1,10 +1,10 @@
-package com.example.zgzmakerspace.viewmodel
+package com.zms.zgzmakerspace.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.zgzmakerspace.core.GetDataWebCodeBeers
-import com.example.zgzmakerspace.core.GetDataWebLaboratories
-import com.example.zgzmakerspace.model.Events
+import com.zms.zgzmakerspace.core.GetDataWebCodeBeers
+import com.zms.zgzmakerspace.core.GetDataWebLaboratories
+import com.zms.zgzmakerspace.model.Events
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

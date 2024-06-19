@@ -1,4 +1,4 @@
-package com.example.zgzmakerspace.ui.theme
+package com.zms.zgzmakerspace.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
@@ -6,7 +6,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.example.zgzmakerspace.R
+import com.zms.zgzmakerspace.R
 
 // Set of Material typography styles to start with
 val quickSandFontFamily = FontFamily(

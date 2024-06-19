@@ -1,4 +1,4 @@
-package com.example.zgzmakerspace.ui.theme
+package com.zms.zgzmakerspace.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

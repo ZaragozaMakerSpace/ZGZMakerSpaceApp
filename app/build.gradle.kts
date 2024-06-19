@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.zgzmakerspace"
+    namespace = "com.zms.zgzmakerspace"
     compileSdk = 34
 
     defaultConfig {

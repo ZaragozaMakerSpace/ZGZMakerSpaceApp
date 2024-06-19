@@ -1,4 +1,4 @@
-package com.example.zgzmakerspace
+package com.zms.zgzmakerspace
 
 
 import android.content.Context
@@ -55,9 +55,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
-import com.example.zgzmakerspace.model.Events
-import com.example.zgzmakerspace.ui.theme.ZGZMakerSpaceTheme
-import com.example.zgzmakerspace.viewmodel.EventsViewModel
+import com.zms.zgzmakerspace.model.Events
+import com.zms.zgzmakerspace.ui.theme.ZGZMakerSpaceTheme
+import com.zms.zgzmakerspace.viewmodel.EventsViewModel
 
 val icon_Ids = listOf(
     R.drawable.instagram_icon,
