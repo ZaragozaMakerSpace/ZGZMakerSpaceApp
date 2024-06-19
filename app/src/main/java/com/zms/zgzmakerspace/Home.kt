@@ -1,5 +1,6 @@
 package com.zms.zgzmakerspace
 
+import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -44,14 +45,18 @@ import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.zms.zgzmakerspace.ui.theme.ZMSCloseColor
 import com.zms.zgzmakerspace.ui.theme.ZMSOpenColor
-import com.zms.zgzmakerspace.viewmodel.MqttViewModel
+import com.zms.zgzmakerspace.viewmodel.FirebaseViewModel
+import com.zms.zgzmakerspace.viewmodel.FirebaseViewModelFactory
 import kotlinx.coroutines.launch
 
 
 @Composable
 fun Home(paddingValues: PaddingValues) {
     val context = LocalContext.current
-    val viewModel: MqttViewModel = viewModel()
+    //val viewModel: MqttViewModel = viewModel()
+    // val viewModel: FirebaseViewModel = viewModel()
+    val appContext = LocalContext.current.applicationContext as Application
+    val viewModel: FirebaseViewModel = viewModel(factory = FirebaseViewModelFactory(appContext))
     val makerspaceIsOpen = viewModel.makerspaceIsOpen
     Column(
         modifier = Modifier
