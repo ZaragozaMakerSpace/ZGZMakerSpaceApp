@@ -7,7 +7,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.Firebase
-import com.google.firebase.FirebaseApp
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -30,32 +29,34 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     private val database = Firebase.database
 
     init {
-        FirebaseApp.initializeApp(application)
+        // InitializeApp is initialized in MainActivity since onCreate method.
+        // FirebaseApp.initializeApp(application)
         setupListeners()
     }
 
     private fun setupListeners() {
         val databaseReference = FirebaseDatabase.getInstance().getReference("ZMSDoor")
-        databaseReference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val data = snapshot.getValue<Boolean>()
-                if (data != null) {
-                    makerspaceIsOpen.value = data
-                } else {
-                    Log.i("ERROR Firebase", "Firebase data null")
+        try {
+            databaseReference.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.getValue<Boolean>()?.let { data ->
+                        makerspaceIsOpen.value = data
+                    } ?: run {
+                        Log.i("ERROR Firebase", "Expected a Boolean but found something else.")
+                    }
                 }
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                Log.i("ERROR FireBase", error.details)
-            }
-        })
+                override fun onCancelled(error: DatabaseError) {
+                    Log.i("ERROR FireBase", error.message)
+                }
+            })
+        } catch (e: Exception) {
+            Log.e("Firebase Setup Error", "Failed to set up Firebase listener", e)
+        }
     }
 
     fun writeOnFirebase() {
         val dbRef = database.reference
         dbRef.setValue("Open")
     }
-
-
 }

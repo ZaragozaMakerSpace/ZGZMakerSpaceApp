@@ -55,6 +55,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
+import com.google.firebase.FirebaseApp
 import com.zms.zgzmakerspace.model.Events
 import com.zms.zgzmakerspace.ui.theme.ZGZMakerSpaceTheme
 import com.zms.zgzmakerspace.viewmodel.EventsViewModel
@@ -79,6 +80,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val viewModel: EventsViewModel by viewModels()
         val screens = listOf("Home", "CodeBeers", "Talleres")
+        FirebaseApp.initializeApp(this)
         setContent {
 
             var selectedScreen by rememberSaveable { mutableStateOf(screens.first()) }
