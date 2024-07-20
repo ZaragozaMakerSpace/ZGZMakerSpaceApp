@@ -12,7 +12,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
-import com.google.firebase.database.getValue
 
 class FirebaseViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -39,7 +38,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
         try {
             databaseReference.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    snapshot.getValue<Boolean>()?.let { data ->
+                    snapshot.getValue(Boolean::class.java)?.let { data ->
                         makerspaceIsOpen.value = data
                     } ?: run {
                         Log.i("ERROR Firebase", "Expected a Boolean but found something else.")
